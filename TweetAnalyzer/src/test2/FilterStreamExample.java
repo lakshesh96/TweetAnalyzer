@@ -29,62 +29,35 @@ import java.util.logging.Logger;
 import javax.mail.MessagingException;
 
 public class FilterStreamExample {
-    private static String user,pass,to,subject,body;
 
   public static void run(String consumerKey, String consumerSecret, String token, String secret) throws InterruptedException {
     BlockingQueue<String> queue = new LinkedBlockingQueue<String>(10000);
     StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();
-    // add some track terms
-    endpoint.trackTerms(Lists.newArrayList("twitterapi","sbi"));
+    endpoint.trackTerms(Lists.newArrayList("TheOfficialSBI","sbi"));
 
     Authentication auth = new OAuth1(consumerKey, consumerSecret, token, secret);
-    // Authentication auth = new BasicAuth(username, password);
 
-    // Create a new BasicClient. By default gzip is enabled.
     Client client = new ClientBuilder()
             .hosts(Constants.STREAM_HOST)
             .endpoint(endpoint)
             .authentication(auth)
             .processor(new StringDelimitedProcessor(queue))
             .build();
-
-    // Establish a connection
     client.connect();
 
-    // Do whatever needs to be done with messages
-    for (int msgRead = 0; msgRead < 1000; msgRead++) {
+    for (int msgRead = 0; msgRead < 100; msgRead++) {
       String msg = queue.take();
-      //SEND MESSAGE TO MICROSOFT LUIS API HERE.
       new parseJSON(msg);
-      //System.out.println(msg);
     }
-
     client.stop();
 
   }
 
   public static void main(String[] args) {
-    
-/*
-    //Code for Sending Mail.
-    user = "laksheshgirdhar";
-    pass = "mostluckiest";
-    to = "sglgsgpg@hotmail.com";
-    subject = "SBI Hackathon";
-    body = "Email Sent using JAVA";
-    GoogleMail sendMsg = new GoogleMail();
-        try {
-            sendMsg.Send(user,pass,to,subject,body);
-        } catch (MessagingException ex) {
-            Logger.getLogger(FilterStreamExample.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    //Sending Mail Ends
-*/
-    //Code for Starting Twitter API
     try {  
       FilterStreamExample.run("2Dhc9bOXZUdcAG9eRRw4zaJYr", "6p5cidKBw9Y3OAm9CEQwJniylQw2ryLYpTW3X20o8chj2PraLt", "196983290-DAfgL2iyTJmeTJ9hb4JhSTgYouGHyDSJEe598kmD", "KAMOAd3cMM7iCejmdvbGq5ivryxhPsPty2WGXZQdXOXZP");
     } catch (InterruptedException e) {
-      System.out.println(e);
+      System.out.println("Please Restart and Connect to Internet.");
     }
   }
 }
