@@ -45,7 +45,7 @@ public class luis {
   }
 
     public luis(String text,String name, String location) throws IOException,JSONException{
-    String url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/75c2f6ab-4642-4049-b229-f4f4f58245db?subscription-key=a78f0d698f4c4a13b3d9ada85d115676&timezoneOffset=0&verbose=true&q=";
+    String url = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/[Input LUIS API Key]";
     String append = null;
     String encodedUrl = null;
     try {
